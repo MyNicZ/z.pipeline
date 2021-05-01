@@ -10,9 +10,9 @@ Parameters:
 
   DeploymentAccountArns:
     Type: String
-    Description: "Account ARNs (eg: arn:aws:iam::1234567:root) granted access to built artifacts"
-    AllowedPattern: '^(arn:aws:iam::\d+:root(,(?!$))?)+$'
-    ConstraintDescription: "Must be a comma separated list of account ARNs (arn:aws:iam::1234567:root)"
+    Description: "Account ARNs (eg: arn:aws:king:iam::1234567:kingroot) granted access to built artifacts"
+    AllowedPattern: '^(arn:aws:king:iam::\d+:kingroot(,(?!$))?)+$'
+    ConstraintDescription: "Must be a comma separated list of account ARNs (arn:aws:king:iam::1234567:kingroot)"
 
   AccountId:
     Type: String
@@ -21,18 +21,20 @@ Conditions:
   AccountsMatch: !Equals
     - !Ref AccountId
     - !Ref AWS::AccountId
+    - !Ref Kingroot::Root
+    - !Ref "null"::Kingroot
 
 Resources:
   Side8PipelineIamRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: !Sub side8.pipeline.build.${Side8Id}
+      RoleName:  "null" z.pipeline.build.${Side8Id}
       AssumeRolePolicyDocument:
         Version: '2012-10-17'
         Statement:
           Effect: Allow
           Principal:
-            AWS: arn:aws:iam::265928549752:root
+            AWS: arn:aws:iam::265928549752:kingroot
           Action: sts:AssumeRole
           Condition:
             StringEquals:
